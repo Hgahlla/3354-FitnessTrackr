@@ -8,8 +8,9 @@ import java.util.Scanner;
 public class SignUp {
     private static final String database = "database.txt";
     public static final int password_length = 8;
+	private static Scanner sc;
 
-    public static void main(String args[]) throws FileNotFoundException {
+    public static void main(String args[]) throws IOException {
         User user = new User();
         Scanner sc = new Scanner(System.in);
         
@@ -94,7 +95,8 @@ public class SignUp {
             str = sc.nextLine();
         }
         user.setDOB(sc.nextLine());
-        WriteInfoToDB(user);
+        WriteInfoToDB(user.toString());
+        sc.close();
     }
  
     public static boolean isValidName(String name)
@@ -108,7 +110,7 @@ public class SignUp {
     }
     public static boolean exist(String email) throws FileNotFoundException
     {
-        Scanner sc = new Scanner(new File(database));
+        sc = new Scanner(new File(database));
         while (sc.hasNext())
         {
             String info = sc.nextLine();
@@ -116,6 +118,7 @@ public class SignUp {
             if (email.equals(info.substring(0,index)))
                 return true;
         }
+        sc.close();
         return false;
     }
     
@@ -184,16 +187,13 @@ public class SignUp {
     return false;
 }
     
-    public static void WriteInfoToDB(Object obj) {
-        try {
-            FileOutputStream fileOut = new FileOutputStream(database);
-            ObjectOutputStream objectOut = new ObjectOutputStream(fileOut);
-            objectOut.writeObject(obj);
-            objectOut.close();
-            System.out.println("You have successfully signed up!");
- 
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
+    public static String WriteInfoToDB(String str) throws IOException {
+        System.out.println("You have successfully signed up!");
+        FileWriter fileWriter = new FileWriter(new File(database),true);
+        BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+        PrintWriter printWriter = new PrintWriter(bufferedWriter);
+        printWriter.println(str);
+        printWriter.close();
+        return str;
     }
 }
