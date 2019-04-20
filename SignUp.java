@@ -160,7 +160,7 @@ public class SignUp {
     public static boolean isValidFormat(String value) 
     {
         LocalDateTime ldt = null;
-        DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("mm/dd/yyyy");
+        DateTimeFormatter fomatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
         try {
             ldt = LocalDateTime.parse(value, fomatter);
